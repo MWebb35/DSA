@@ -75,7 +75,7 @@ void printPath(int currentNode, int pathway[], int startingNode, int targetNode)
     cout << intToChar(currentNode) << " ";
 }
 
-//Main Dijkstra function
+//Main Dijkstra function - finds the shortest path between two nodes
 void dijkstras(int graph[V][V], int startingNode, int targetNode, char startingNodeChar, char targetNodeChar){
     //Holds the distance between the source node and all other nodes
     int dist[V];
