@@ -1,12 +1,60 @@
 #include <iostream>
 using namespace std;
 
+//Used to set the nodes to the maximum value of an integer (representative of infinity in dijkstra's algorithm)
+#include <limits.h>
+
 #define V 8
 
-int dijkstras(int graph[V][V], int startingNode, int targetNode){
-    cout << "\nStarting node in function: " << startingNode;
-    cout << "\nTarget node in function: " << targetNode;
-    cout << "\nPosition in graph: " << graph[3][0];
+int minDistance(int dist[V], bool shortestPath[V]){
+
+    int min = INT_MAX;
+    int min_index;
+
+    for (int i = 0; i < V; i++){
+        if (!shortestPath[i] && dist[i] <= min){
+            min = dist[i];
+            min_index = i;
+        }
+    }
+
+    return min_index;
+}
+
+void dijkstras(int graph[V][V], int startingNode, int targetNode){
+
+    //Holds the distance between the source node and all other nodes
+    int dist[V];
+
+    bool shortestPath[V];
+
+    int next[V];
+
+    //Sets the source node distance to 0 and all other nodes to the max an integer can be (so it is out of range of the source node)
+    for (int i = 0; i < V; i++){
+        if (i == startingNode){
+            dist[i] = 0;
+        } else {
+            dist[i] = INT_MAX, shortestPath[i] = false;
+        }
+    }
+
+    for (int i = 0; i < V; i++){
+        int minV = minDistance(dist, shortestPath);
+        shortestPath[minV] = true;
+
+        for (int j = 0; j < V; j++){
+            if (!shortestPath[j] && graph[minV][j] && dist[minV] != INT_MAX && dist[minV] + graph[minV][j] < dist[j]){
+                dist[j] = dist[minV] + graph[minV][j];
+            }
+        }
+
+    }
+
+    printf("Shortest path from source (%d) to target (%d):\n", startingNode, targetNode);
+    printf("Vertex\tDistance\n");
+    printf("\t%d \t\t %d\n", targetNode, dist[targetNode]);
+
 }
 
 int main() {
