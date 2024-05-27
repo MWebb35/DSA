@@ -6,7 +6,7 @@ using namespace std;
 
 #define V 8
 
-int minDistance(int dist[V], bool shortestPath[V]){
+int minDistance(const int dist[V], const bool shortestPath[V]){
 
     int min = INT_MAX;
     int min_index;
@@ -21,14 +21,14 @@ int minDistance(int dist[V], bool shortestPath[V]){
     return min_index;
 }
 
-void dijkstras(int graph[V][V], int startingNode, int targetNode){
+void dijkstras(int graph[V][V], int startingNode, int targetNode, char startingNodeChar, char targetNodeChar){
 
     //Holds the distance between the source node and all other nodes
     int dist[V];
 
     bool shortestPath[V];
 
-    int next[V];
+    int pathway[V];
 
     //Sets the source node distance to 0 and all other nodes to the max an integer can be (so it is out of range of the source node)
     for (int i = 0; i < V; i++){
@@ -48,13 +48,50 @@ void dijkstras(int graph[V][V], int startingNode, int targetNode){
                 dist[j] = dist[minV] + graph[minV][j];
             }
         }
-
     }
 
-    printf("Shortest path from source (%d) to target (%d):\n", startingNode, targetNode);
+    for (int i = 0; i < V; i++){
+        printf("\npathway (%d): (%d)",i, pathway[i]);
+        //printf("\ndist (%d): (%d)",i, dist[i]);
+    }
+
+    printf("\nShortest path from source (%c) to target (%c):\n", startingNodeChar, targetNodeChar);
     printf("Vertex\tDistance\n");
     printf("\t%d \t\t %d\n", targetNode, dist[targetNode]);
 
+}
+
+int charToInt(int changedInt){
+    switch (changedInt){
+        case 'A':
+            changedInt = 0;
+            break;
+        case 'B':
+            changedInt = 1;
+            break;
+        case 'C':
+            changedInt = 2;
+            break;
+        case 'D':
+            changedInt = 3;
+            break;
+        case 'E':
+            changedInt = 4;
+            break;
+        case 'F':
+            changedInt = 5;
+            break;
+        case 'G':
+            changedInt = 6;
+            break;
+        case 'H':
+            changedInt = 7;
+            break;
+        default:
+            cout << "\nInvalid input received";
+    }
+
+    return changedInt;
 }
 
 int main() {
@@ -75,71 +112,11 @@ int main() {
     cout << "\nEnter target node: ";
     cin >> targetNode;
 
-    int startingNodeInt;
+    int startingNodeInt = charToInt(startingNode);
 
-    switch (startingNode){
-        case 'A':
-            startingNodeInt = 0;
-            break;
-        case 'B':
-            startingNodeInt = 1;
-            break;
-        case 'C':
-            startingNodeInt = 2;
-            break;
-        case 'D':
-            startingNodeInt = 3;
-            break;
-        case 'E':
-            startingNodeInt = 4;
-            break;
-        case 'F':
-            startingNodeInt = 5;
-            break;
-        case 'G':
-            startingNodeInt = 6;
-            break;
-        case 'H':
-            startingNodeInt = 7;
-            break;
-        default:
-            cout << "\nInvalid input received";
-    }
+    int targetNodeInt = charToInt(targetNode);
 
-    int targetNodeInt;
-
-    switch(targetNode){
-        case 'A':
-            targetNodeInt = 0;
-            break;
-        case 'B':
-            targetNodeInt = 1;
-            break;
-        case 'C':
-            targetNodeInt = 2;
-            break;
-        case 'D':
-            targetNodeInt = 3;
-            break;
-        case 'E':
-            targetNodeInt = 4;
-            break;
-        case 'F':
-            targetNodeInt = 5;
-            break;
-        case 'G':
-            targetNodeInt = 6;
-            break;
-        case 'H':
-            targetNodeInt = 7;
-            break;
-        default:
-            cout << "\nInvalid input received";
-    }
-
-    cout << "\nStarting node: " << startingNode << "\nTarget node: " << targetNode;
-
-    dijkstras(graph, startingNodeInt, targetNodeInt);
+    dijkstras(graph, startingNodeInt, targetNodeInt, startingNode, targetNode);
 
     return 0;
 }
